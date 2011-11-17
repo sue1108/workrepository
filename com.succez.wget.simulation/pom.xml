@@ -32,7 +32,17 @@
   		<version>4.0</version>     
   		<scope>test</scope>   
   	</dependency>
-  	
+
+  	<dependency>
+  		<groupId>org.apache.httpcomponents</groupId>
+  		<artifactId>httpclient</artifactId>
+  		<version>4.2-alpha1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>HTTPClient</groupId>
+  		<artifactId>HTTPClient</artifactId>
+  		<version>0.3-3</version>
+  	</dependency>
   </dependencies>
   
 </project>
