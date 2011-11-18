@@ -19,7 +19,8 @@ public class SimulateWgetTest {
 	@Test
 	public void test() {
 		String url = 
-				"http://dev.succez.com/download/SuccezIDE/eclipse/eclipse-java-helios-SR1-win32.zip";
+				"http://dev.succez.com/download/vmware/dbsvrvm/dbserver1/xp_db29_sybaseAse12-s001.vmdk";
+//				"http://dev.succez.com/download/SuccezIDE/eclipse/eclipse-java-helios-SR1-win32.zip";
 		// "http://dev.succez.com/download/software/Snagit%2010.rar";
 		// "http://file12.mafengwo.net/M00/CC/CD/wKgBpU6EFk26MI5OAC7fiFssbEY047.rar";
 		// "http://www.hao123.com/";
