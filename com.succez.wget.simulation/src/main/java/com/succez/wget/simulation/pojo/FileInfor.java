@@ -10,7 +10,7 @@ import java.io.InputStream;
  * @createdate 2011-11-15
  */
 public class FileInfor {
-
+  
 	private String content;
 	
 	private String type ;
