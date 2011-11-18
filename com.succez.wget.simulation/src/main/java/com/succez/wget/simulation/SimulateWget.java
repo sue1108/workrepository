@@ -89,7 +89,6 @@ public class SimulateWget {
 
 	}
 
-	
 
 	/**
 	 * <p>
@@ -114,6 +113,20 @@ public class SimulateWget {
 		}
 		return new SimpleDateFormat("yyMMdd_hhmmss").format(new Date())
 				+ ".html";
+	}
+	
+	public static void main(String args[]){
+		String url = 
+				"http://dev.succez.com/download/SuccezIDE/eclipse/eclipse-java-helios-SR1-win32.zip";
+		
+		String name = SimulateWget.judgeType(url);
+		try {
+			SimulateWget.simulateDown(url , name);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
