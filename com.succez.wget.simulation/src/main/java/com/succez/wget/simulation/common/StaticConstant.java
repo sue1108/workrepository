@@ -10,5 +10,5 @@ public class StaticConstant {
  /**
   * 文件类型，类型之间用|分割
   */
-	public static String FILE_TYPE = "java|txt|doc|xls|bat|js|html|htm";
+	public static String FILE_TYPE = "java|txt|doc|xls|bat|js|html|htm|zip|rar";
 }
