@@ -3,10 +3,6 @@
  */
 package com.succez.study.webserver;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
 import org.junit.Test;
 
 /**
@@ -19,11 +15,18 @@ public class HttpWebServerTest {
 
 	@Test
 	public void test() {
-		try {
-			HttpWebServer.httpServer(8090);
+		
+/*		try {
+//			HttpWebServer.httpServer(8090);
+			try {
+				HttpWebServer.httpThreadServer(8090);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
