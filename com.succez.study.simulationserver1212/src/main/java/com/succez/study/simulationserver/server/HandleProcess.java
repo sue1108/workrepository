@@ -10,12 +10,17 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.succez.study.simulationserver.common.CommonsMethod;
 import com.succez.study.simulationserver.common.StaticConstant;
 
 public class HandleProcess {
+	
+	private final static Logger logger = LoggerFactory.getLogger(HandleProcess.class);
 	
 	private static HandleProcess instance = new HandleProcess();
 	
@@ -58,11 +63,8 @@ public class HandleProcess {
 			writeData(channel, CommonsMethod.listDirFiles(file));
 
 //			 其他类型，返回错误提示信息
-		} else { 
-			StringBuffer sbf = new StringBuffer(StaticConstant.STRINGBUFFER_LEN);
-			sbf.append("路径不存在！<br/>");
-			sbf.append("请尝试其他链接");
-			writeData(channel, sbf.toString());
+		} else {
+			writeData(channel, FileUtils.readFileToString(new File(StaticConstant.URL_ERROR), "gbk"));
 		}
 	}
 	
@@ -74,9 +76,9 @@ public class HandleProcess {
 	 */
 	public String handleData(ByteBuffer buffer) throws Exception {
 		buffer.flip();
-		String tmpRout = new String(buffer.array());
+		String tmpRout = new String(buffer.array(),"gbk");
 		if (null == tmpRout || "".equals(tmpRout)) {
-			return "c://";
+			return StaticConstant.URL_DEFAULT;
 		} else {
 			String rout[] = tmpRout.split(" ");
 			if (rout.length > 1 && rout[1].length() > 1) {
@@ -91,13 +93,13 @@ public class HandleProcess {
 						&& (1 == tmpRout.substring(0, index).length())) {
 					tmpRout = tmpRout.replaceFirst("/", "://");
 				} else {
-					tmpRout = "c://";
+					tmpRout = StaticConstant.URL_DEFAULT;
 				}
 			} else {
-				tmpRout = "c://";
+				tmpRout = StaticConstant.URL_DEFAULT;
 			}
 		}
-		// logger.info("客户端请求路径：{}", tmpRout);
+//		 logger.info("客户端请求路径：{}", tmpRout);
 		return tmpRout;
 	}
 	
@@ -127,19 +129,7 @@ public class HandleProcess {
 			fc = fis.getChannel();
 			long fileSize = fc.size(); // 文件长度
 			fc.transferTo(0, fileSize, socket);
-			/*int length = 1024 * 4;
-			int n = (int) ((fileSize - 1) / length + 1); // 读取n次
-			int position = 0; // 读取起始位置
-			// logger.info("length:{},n:{}", fileSize, n);
-			int i = 0;
-			for (; i < n; i++) {
-				fc.transferTo(position, length, socket);
-				position += length;
-				if (i == (n - 1)) {
-					length = (int) (fileSize - (n - 1) * length);
-				}
-				// logger.info("i:{},length:{}", i, length);
-			}*/
+			
 		} finally {
 //			logger.info("time:{}", System.currentTimeMillis() - time);
 			IOUtils.closeQuietly(fis);

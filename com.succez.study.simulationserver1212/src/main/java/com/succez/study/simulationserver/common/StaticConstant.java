@@ -46,5 +46,25 @@ public class StaticConstant {
 	
 	public static int CONTROL_INDEX = 0;
 	
+	/**
+	 * 文件列表内容路径
+	 */
+	public static String URL_CONTENT = CommonsMethod.getProjectURL()+"/webserver/content.txt";
+	
+	/**
+	 * 访问路径不存在，错误提示文件路径
+	 */
+	public static String URL_ERROR = CommonsMethod.getProjectURL()+"/webserver/error.txt";
+	
+	/**
+	 * 目录下没有文件
+	 */
+	public static String URL_NO_FILE = CommonsMethod.getProjectURL()+"/webserver/nofile.txt";
+	
+	/**
+	 * 默认盘符
+	 */
+	public static String URL_DEFAULT = "c://";
+	
 	
 }

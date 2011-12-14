@@ -1,0 +1,4 @@
+<table  align='center' style='margin-top:200px'><tr>
+<td ><img src='e://webserver/cry.jpg' alt='链接不存在...'></td>
+<td><font color='red'>请求链接不存在，请尝试其他链接</font></td>
+</tr></table>

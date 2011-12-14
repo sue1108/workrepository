@@ -3,9 +3,9 @@ package com.succez.study.simulationserver.common;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 /**
  * <p>Copyright: Copyright (c) 2011<p>
@@ -49,24 +49,12 @@ public class CommonsMethod {
 				StringBuffer sbf = new StringBuffer(StaticConstant.STRINGBUFFER_LEN);
 				if (null != files && files.length > 0) {
 					int i = 0;
-					sbf.append(FileUtils.readFileToString(new File("e://webserver/content.txt"),"gbk"));
-//					将以下内容加入到了文件中
-					/*sbf.append("<html><style type='text/css'>"
-							+ "a { color:#00f; text-decoration:none; }"
-							+ "a:hover { color:#f00; text-decoration:underline; }"
-							+ ".file { color:#FF8000}"
-							+ ".dir { color:#7B7B7B}"
-							+ "</style>"
-							+ "<table border=1 cellPadding=0 cellSpacing=0 "
-							+ "style='text-align:center;' align='center' valign='center'>"
-							+ "<tr><td colspan='3' height='30px'>"
-							+ "<a href='../'>上一层目录(默认为c盘根目录)</a>"
-							+ "&nbsp;&nbsp;目录下的文件列表</td></tr>"
-							+ "<tr ><td height='30px' width='50px'>ID</td>"
-							+ "<td width='150px'>Type</td>"
-							+ "<td width='200px'>Name</td></tr>");*/
+					sbf.append(FileUtils.readFileToString(new File(StaticConstant.URL_CONTENT),"gbk"));
 					String type = null;
 					for (File fi : files) {
+//						文件为隐藏文件，则不显示
+						if (fi.isHidden())
+							continue;
 //						第一列
 						sbf.append("<tr onMouseOver=this.style.backgroundColor='#FFDCB9' onMouseOut=this.style.backgroundColor='#fff'><td height='30px'>");
 						sbf.append(++i);
@@ -96,8 +84,11 @@ public class CommonsMethod {
 						sbf.append("</td>");
 						
 //						第三列
-						if ("file".equals(type))
-							sbf.append("<td class='file'>文件");
+						if ("file".equals(type)){
+							sbf.append("<td class='file'>");
+							sbf.append(getFileType(fi));
+							sbf.append("文件");
+						}
 						else if ("directory".equals(type))
 							sbf.append("<td class='dir'>文件夹");
 //						sbf.append(type);
@@ -108,16 +99,42 @@ public class CommonsMethod {
 						sbf.append((fi.length() - 1) / 1024 + 1);
 						sbf.append("KB</td></tr>");
 					}
-					sbf.append("</table></html>");
+					sbf.append("<tr><td height='30px' colspan='5' align='left'>&nbsp;&nbsp;&nbsp;");
+					sbf.append(i);
+					sbf.append("个对象</td></tr></table></html>");
 					return sbf.toString();
 				} else {
-					return "目录下没有文件";
+//					return "目录下没有文件";
+					return FileUtils.readFileToString(new File(StaticConstant.URL_NO_FILE), "gbk");
 				}
 			} else {
 				return "此路径不为目录";
 			}
 		}
-		
+	}
+	
+	/**
+	 * 返回文件的类型
+	 * @param file	文件
+	 * @return	file 为null ，返回-1
+	 */
+	public static String getFileType(File file) {
+		if( null== file)
+			return  "-1";
+		String fileName = file.getName();
+		int start = 0;
+		if( -1 != (start=fileName.lastIndexOf('.')) )
+			return fileName.substring(start+1).toUpperCase(Locale.ENGLISH);
+		else
+			return "";
+	}
+	
+	/**
+	 * 获得project的路径
+	 * @return
+	 */
+	public static String getProjectURL(){
+		return System.getProperty("user.dir");
 	}
 
 }

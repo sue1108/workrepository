@@ -65,8 +65,8 @@ public class WebServer {
 //		设置为异步
 		this.serverSockerChannel.configureBlocking(false);
 //		绑定
-//		this.serverSockerChannel.socket().bind(new InetSocketAddress(InetAddress.getLocalHost(), port));
-		this.serverSockerChannel.socket().bind(new InetSocketAddress("localhost", port));
+		this.serverSockerChannel.socket().bind(new InetSocketAddress(InetAddress.getLocalHost(), port));
+//		this.serverSockerChannel.socket().bind(new InetSocketAddress("localhost", port));
 //		注册到Selector，设置为Accept
 		this.selectionKey = this.serverSockerChannel.register(selector, SelectionKey.OP_ACCEPT);
 	}

@@ -1,0 +1,4 @@
+<table  align='center' style='margin-top:200px'><tr>
+<td ><img src='e://webserver/cry.jpg' alt='目录下没有文件...'></td>
+<td><font color='red'>目录下没有文件</font></td>
+</tr></table>
