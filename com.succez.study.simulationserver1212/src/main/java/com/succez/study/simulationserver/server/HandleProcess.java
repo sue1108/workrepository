@@ -31,8 +31,9 @@ public class HandleProcess {
 	 * read
 	 * @param key	当有读事件发生时，传回得SelectionKey
 	 * @param buffer	客户端的请求信息
+	 * @throws Exception 
 	 */
-	public void processRead(SelectionKey key, ByteBuffer buffer) {
+	public void processRead(SelectionKey key, ByteBuffer buffer) throws Exception {
 		String url = handleData(buffer);
 		key.attach(url);
 		key.interestOps(SelectionKey.OP_WRITE);
@@ -41,7 +42,7 @@ public class HandleProcess {
 	/**
 	 * write
 	 * @param channel
-	 * @param url
+	 * @param url	
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -66,11 +67,12 @@ public class HandleProcess {
 	}
 	
 	/**
-	 * handle data 
+	 * handle request data 
 	 * @param buffer	客户端的请求信息，	
-	 * @return	客户端的请求路径，若buffer为null，返回c盘根目录
+	 * @return	客户端的请求路径，若buffer为null或者请求路径不符合规则，返回c盘根目录
+	 * @throws Exception	请求方法为非GET，手动抛出的异常
 	 */
-	public String handleData(ByteBuffer buffer) {
+	public String handleData(ByteBuffer buffer) throws Exception {
 		buffer.flip();
 		String tmpRout = new String(buffer.array());
 		if (null == tmpRout || "".equals(tmpRout)) {
@@ -78,12 +80,21 @@ public class HandleProcess {
 		} else {
 			String rout[] = tmpRout.split(" ");
 			if (rout.length > 1 && rout[1].length() > 1) {
+//				GET /reg.jsp HTTP/ (CRLF)，如果请求方法为非get，手动抛出异常信息
+				if (!rout[0].equals("GET"))
+					throw new Exception("请求方法为：post或其他方法，抛出异常");
+				
 				tmpRout = rout[1].substring(1); // ig/jserror
 				int index = tmpRout.indexOf("/");
-				if (-1 != index) {
-					if (tmpRout.substring(0, index).length() == 1)
-						tmpRout = tmpRout.replaceFirst("/", "://");
+//				确保请求路径的第一层为盘符
+				if ((-1 != index)
+						&& (1 == tmpRout.substring(0, index).length())) {
+					tmpRout = tmpRout.replaceFirst("/", "://");
+				} else {
+					tmpRout = "c://";
 				}
+			} else {
+				tmpRout = "c://";
 			}
 		}
 		// logger.info("客户端请求路径：{}", tmpRout);
@@ -93,8 +104,8 @@ public class HandleProcess {
 	/**
 	 * 客户端请求类型为文件类型，将文件内容回写入客户端
 	 * 
-	 * @param socket
-	 * @param file
+	 * @param socket	已被注册且感兴趣事件为write的通道，若为null，直接return
+	 * @param file	回写客户端的文件
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 *             if the file does not exist, is a directory rather than a
@@ -107,7 +118,7 @@ public class HandleProcess {
 			return;
 		FileInputStream fis = null;
 		FileChannel fc = null;
-		long time = System.currentTimeMillis();
+//		long time = System.currentTimeMillis();
 		try {
 			int fileLen = (int) file.length();
 			if (fileLen < 1)
@@ -140,9 +151,9 @@ public class HandleProcess {
 	/**
 	 * 将content内容回写入客户端
 	 * 
-	 * @param socket
+	 * @param socket	已被注册且感兴趣事件为write的通道，若为null，直接return
 	 * @param content
-	 *            将要写入客户端的内容
+	 *            回写客户端的内容
 	 * @throws IOException
 	 * @throws UnsupportedEncodingException	If the named charset is not supported	
 	 */

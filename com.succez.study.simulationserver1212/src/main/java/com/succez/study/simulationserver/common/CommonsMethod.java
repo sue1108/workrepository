@@ -1,6 +1,11 @@
 package com.succez.study.simulationserver.common;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * <p>Copyright: Copyright (c) 2011<p>
@@ -33,8 +38,9 @@ public class CommonsMethod {
 	 * 返回目录file下的所有文件
 	 * @param file	目录路径
 	 * @return	如果file为目录，则返回该目录下的所有文件；其他情况，返回错误提示信息
+	 * @throws IOException 
 	 */
-	public static String listDirFiles(File file) {
+	public static String listDirFiles(File file) throws IOException {
 		if (null == file) {
 			return "file is null";
 		} else {
@@ -43,19 +49,28 @@ public class CommonsMethod {
 				StringBuffer sbf = new StringBuffer(StaticConstant.STRINGBUFFER_LEN);
 				if (null != files && files.length > 0) {
 					int i = 0;
-					sbf.append("<table border=1 cellPadding=0 cellSpacing=0 "
-							+ "style='text-align:center' align='center' valign='center'>"
-							+ "<tr><td colspan='3' height='30px'>目录下的文件列表</td></tr>"
-							+ "<tr><td height='30px' width='50px'>ID</td>"
+					sbf.append(FileUtils.readFileToString(new File("e://webserver/content.txt"),"gbk"));
+//					将以下内容加入到了文件中
+					/*sbf.append("<html><style type='text/css'>"
+							+ "a { color:#00f; text-decoration:none; }"
+							+ "a:hover { color:#f00; text-decoration:underline; }"
+							+ ".file { color:#FF8000}"
+							+ ".dir { color:#7B7B7B}"
+							+ "</style>"
+							+ "<table border=1 cellPadding=0 cellSpacing=0 "
+							+ "style='text-align:center;' align='center' valign='center'>"
+							+ "<tr><td colspan='3' height='30px'>"
+							+ "<a href='../'>上一层目录(默认为c盘根目录)</a>"
+							+ "&nbsp;&nbsp;目录下的文件列表</td></tr>"
+							+ "<tr ><td height='30px' width='50px'>ID</td>"
 							+ "<td width='150px'>Type</td>"
-							+ "<td width='200px'>Name</td></tr>");
+							+ "<td width='200px'>Name</td></tr>");*/
 					String type = null;
 					for (File fi : files) {
-						sbf.append("<tr><td height='30px'>");
+//						第一列
+						sbf.append("<tr onMouseOver=this.style.backgroundColor='#FFDCB9' onMouseOut=this.style.backgroundColor='#fff'><td height='30px'>");
 						sbf.append(++i);
-						sbf.append("</td><td>");
 						type = CommonsMethod.judgeFileType(fi);
-						sbf.append(type);
 						sbf.append("</td><td><a target='_blank' href='");
 						sbf.append(fi.getName());
 						/**
@@ -74,9 +89,26 @@ public class CommonsMethod {
 						}
 						sbf.append("'>");
 						sbf.append(fi.getName());
-						sbf.append("</a></td></tr>");
+						sbf.append("</a></td><td>");
+						
+//						第二列
+						sbf.append(new SimpleDateFormat("yyyy/MM/dd hh:mm").format(fi.lastModified()));
+						sbf.append("</td>");
+						
+//						第三列
+						if ("file".equals(type))
+							sbf.append("<td class='file'>文件");
+						else if ("directory".equals(type))
+							sbf.append("<td class='dir'>文件夹");
+//						sbf.append(type);
+						sbf.append("</td>");
+						
+//						第四列
+						sbf.append("<td>");
+						sbf.append((fi.length() - 1) / 1024 + 1);
+						sbf.append("KB</td></tr>");
 					}
-					sbf.append("</table>");
+					sbf.append("</table></html>");
 					return sbf.toString();
 				} else {
 					return "目录下没有文件";

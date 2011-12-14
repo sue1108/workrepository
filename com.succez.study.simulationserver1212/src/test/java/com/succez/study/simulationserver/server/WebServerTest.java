@@ -15,7 +15,6 @@ public class WebServerTest {
 			server.initServer(8090);
 			server.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -22,7 +22,12 @@ public class ReadThread implements Runnable{
 	}
 
 	public void run() {
-		HandleProcess.getInstance().processRead(key, buffer);
+		try {
+			HandleProcess.getInstance().processRead(key, buffer);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
