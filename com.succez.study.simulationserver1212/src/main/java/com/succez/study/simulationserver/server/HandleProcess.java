@@ -64,7 +64,8 @@ public class HandleProcess {
 
 //			 其他类型，返回错误提示信息
 		} else {
-			writeData(channel, FileUtils.readFileToString(new File(StaticConstant.URL_ERROR), "gbk"));
+			writeData(channel, CommonsMethod.getErrorInfor());
+//			writeData(channel, FileUtils.readFileToString(new File(StaticConstant.URL_ERROR)));
 		}
 	}
 	

@@ -49,7 +49,7 @@ public class CommonsMethod {
 				StringBuffer sbf = new StringBuffer(StaticConstant.STRINGBUFFER_LEN);
 				if (null != files && files.length > 0) {
 					int i = 0;
-					sbf.append(FileUtils.readFileToString(new File(StaticConstant.URL_CONTENT),"gbk"));
+					sbf.append(FileUtils.readFileToString(new File(StaticConstant.URL_CONTENT)));
 					String type = null;
 					for (File fi : files) {
 //						文件为隐藏文件，则不显示
@@ -104,8 +104,12 @@ public class CommonsMethod {
 					sbf.append("个对象</td></tr></table></html>");
 					return sbf.toString();
 				} else {
-//					return "目录下没有文件";
-					return FileUtils.readFileToString(new File(StaticConstant.URL_NO_FILE), "gbk");
+					sbf.append("<table align='center' style='margin-top:200px'><tr>"
+							+ "<td ><img src='");
+					sbf.append(CommonsMethod.getProjectURL());
+					sbf.append("/webserver/cry.jpg' alt='该文件夹为空...'></td>"
+							+ "<td><font color='red'>该文件夹为空</font></td></tr></table>");
+					return sbf.toString();
 				}
 			} else {
 				return "此路径不为目录";
@@ -127,6 +131,20 @@ public class CommonsMethod {
 			return fileName.substring(start+1).toUpperCase(Locale.ENGLISH);
 		else
 			return "";
+	}
+	
+	/**
+	 * 请求路径不存在，返回错误提示信息
+	 * @return
+	 */
+	public static String getErrorInfor(){
+		StringBuffer sbf = new StringBuffer(StaticConstant.STRINGBUFFER_LEN);
+		sbf.append("<table align='center' style='margin-top:200px'><tr>" +
+				"<td ><img src='");
+		sbf.append(CommonsMethod.getProjectURL());
+		sbf.append("/webserver/cry.jpg' alt='链接不存在...'></td>" +
+				"<td><font color='red'>请求链接不存在，请尝试其他链接</font></td></tr></table>");
+		return sbf.toString();
 	}
 	
 	/**

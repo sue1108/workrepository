@@ -7,12 +7,12 @@
 	</style>
 <table border=1 cellPadding=0 cellSpacing=0 style='text-align:center' align='center' valign='center'>
 	<tr><td colspan='5' height='30px'>
-		<a href='../'>иор╩╡Цд©б╪(д╛хон╙cел╦Ыд©б╪)</a>&nbsp;&nbsp;д©б╪об╣днд╪Чап╠М
+		<a href='../'>Д╦┼Д╦─Е╠┌Г⌡╝Е╫∙(И╩≤Х╝╓Д╦╨cГ⌡≤Ф═╧Г⌡╝Е╫∙)</a>&nbsp;&nbsp;Г⌡╝Е╫∙Д╦▀Г └Ф√┤Д╩╤Е┬≈Х║╗
 	</td></tr>
 	<tr>
 		<td height='30px' width='50px'>ID</td>
-		<td width='270px'>цШЁф</td>
-		<td width='200px'>пч╦дхуфз</td>
-		<td width='150px'>╢Сп║</td>	
-		<td width='150px'>юЮпм</td>			
+		<td width='270px'>Е░█Г╖╟</td>
+		<td width='200px'>Д©╝Ф■╧Ф≈╔Ф°÷</td>
+		<td width='150px'>Г╠╩Е·▀</td>	
+		<td width='150px'>Е╓╖Е╟▐</td>			
 	</tr>
